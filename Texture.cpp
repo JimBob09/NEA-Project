@@ -1,4 +1,3 @@
-#pragma once
 #include <glad/glad.h>
 #include <iostream>
 #include <string>
@@ -9,7 +8,7 @@ Texture::Texture(const std::string& path, bool flip)
 {
     stbi_set_flip_vertically_on_load(flip);
 
-    unsigned char* data = stbi_load("grunge-wall-texture.jpg", &m_width, &m_height, &m_channels, 0);
+    unsigned char* data = stbi_load(path.c_str(), &m_width, &m_height, &m_channels, 0);
     if (!data) {
         std::cerr << "Failed to load texture: " << stbi_failure_reason() << "\n";
     }

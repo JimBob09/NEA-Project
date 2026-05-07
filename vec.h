@@ -28,34 +28,39 @@ struct vec_base<T, 4>
     union { T data[4]; struct { T x, y, z, w; }; };
 };
 
+
+
 // Declarations
 template<typename T, int N>
 struct vec : vec_base<T, N>
 {
     vec() = default;
-    vec(std::initializer_list<T> list);
+    constexpr vec(std::initializer_list<T> list);
 
-    T length() const;
-    vec<T, N> normalise() const;
+    constexpr T length() const;
+    constexpr vec<T, N> normalise() const;
 
-    static T dot(const vec<T, N>& lhs, const vec<T, N>& rhs);
+    constexpr static T dot(const vec<T, N>& lhs, const vec<T, N>& rhs);
 
-    T& operator[](int i);
-    const T& operator[](int i) const;
+    constexpr T& operator[](int i);
+    constexpr const T& operator[](int i) const;
 
-    vec<T, N> operator+(const vec<T, N>& rhs) const;
-    vec<T, N>& operator+=(const vec<T, N>& rhs);
+    constexpr vec<T, N> operator+(const vec<T, N>& rhs) const;
+    constexpr vec<T, N>& operator+=(const vec<T, N>& rhs);
 
-    vec<T, N> operator-(const vec<T, N>& rhs) const;
-    vec<T, N>& operator-=(const vec<T, N>& rhs);
-    vec<T, N> operator-() const;
+    constexpr vec<T, N> operator-(const vec<T, N>& rhs) const;
+    constexpr vec<T, N>& operator-=(const vec<T, N>& rhs);
+    constexpr vec<T, N> operator-() const;
 
-    vec<T, N> operator*(T scalar) const;
-    vec<T, N> operator/(T scalar) const;
+    constexpr vec<T, N> operator*(T scalar) const;
+    constexpr vec<T, N> operator*(vec<T, N>& rhs) const;
+
+    constexpr vec<T, N> operator/(T scalar) const;
+    constexpr vec<T, N> operator/(vec<T, N>& rhs) const;
 };
 
 template<typename T, int N>
-vec<T, N> operator*(T scalar, const vec<T, N>& vec);
+constexpr vec<T, N> operator*(T scalar, const vec<T, N>& vec);
 
 using vec2 = vec<float, 2>;
 using vec3 = vec<float, 3>;
@@ -67,7 +72,7 @@ inline vec3 cross(const vec3& lhs, const vec3& rhs);
 
 // Definitions
 template<typename T, int N>
-vec<T, N>::vec(std::initializer_list<T> list)
+constexpr vec<T, N>::vec(std::initializer_list<T> list)
 {
     int i = 0;
     for (T v : list)
@@ -75,7 +80,7 @@ vec<T, N>::vec(std::initializer_list<T> list)
 }
 
 template<typename T, int N>
-T vec<T, N>::length() const
+constexpr T vec<T, N>::length() const
 {
     T result = 0;
     for (int i = 0; i < N; i++)
@@ -84,13 +89,13 @@ T vec<T, N>::length() const
 }
 
 template<typename T, int N>
-vec<T, N> vec<T, N>::normalise() const
+constexpr vec<T, N> vec<T, N>::normalise() const
 {
     return (*this) / length();
 }
 
 template<typename T, int N>
-T vec<T, N>::dot(const vec<T, N>& lhs, const vec<T, N>& rhs)
+constexpr T vec<T, N>::dot(const vec<T, N>& lhs, const vec<T, N>& rhs)
 {
     T result = 0;
     for (int i = 0; i < N; i++)
@@ -99,19 +104,19 @@ T vec<T, N>::dot(const vec<T, N>& lhs, const vec<T, N>& rhs)
 }
 
 template<typename T, int N>
-T& vec<T, N>::operator[](int i)
+constexpr T& vec<T, N>::operator[](int i)
 {
     return this->data[i];
 }
 
 template<typename T, int N>
-const T& vec<T, N>::operator[](int i) const
+constexpr const T& vec<T, N>::operator[](int i) const
 {
     return this->data[i];
 }
 
 template<typename T, int N>
-vec<T, N> vec<T, N>::operator+(const vec<T, N>& rhs) const
+constexpr vec<T, N> vec<T, N>::operator+(const vec<T, N>& rhs) const
 {
     vec<T, N> result;
     for (int i = 0; i < N; i++)
@@ -120,7 +125,7 @@ vec<T, N> vec<T, N>::operator+(const vec<T, N>& rhs) const
 }
 
 template<typename T, int N>
-vec<T, N>& vec<T, N>::operator+=(const vec<T, N>& rhs)
+constexpr vec<T, N>& vec<T, N>::operator+=(const vec<T, N>& rhs)
 {
     for (int i = 0; i < N; i++)
         this->data[i] += rhs[i];
@@ -128,7 +133,7 @@ vec<T, N>& vec<T, N>::operator+=(const vec<T, N>& rhs)
 }
 
 template<typename T, int N>
-vec<T, N> vec<T, N>::operator-(const vec<T, N>& rhs) const
+constexpr vec<T, N> vec<T, N>::operator-(const vec<T, N>& rhs) const
 {
     vec<T, N> result;
     for (int i = 0; i < N; i++)
@@ -137,7 +142,7 @@ vec<T, N> vec<T, N>::operator-(const vec<T, N>& rhs) const
 }
 
 template<typename T, int N>
-vec<T, N>& vec<T, N>::operator-=(const vec<T, N>& rhs)
+constexpr vec<T, N>& vec<T, N>::operator-=(const vec<T, N>& rhs)
 {
     for (int i = 0; i < N; i++)
         this->data[i] -= rhs[i];
@@ -145,7 +150,7 @@ vec<T, N>& vec<T, N>::operator-=(const vec<T, N>& rhs)
 }
 
 template<typename T, int N>
-vec<T, N> vec<T, N>::operator-() const
+constexpr vec<T, N> vec<T, N>::operator-() const
 {
     vec<T, N> result;
     for (int i = 0; i < N; i++)
@@ -154,7 +159,7 @@ vec<T, N> vec<T, N>::operator-() const
 }
 
 template<typename T, int N>
-vec<T, N> vec<T, N>::operator*(T scalar) const
+constexpr vec<T, N> vec<T, N>::operator*(T scalar) const
 {
     vec<T, N> result;
     for (int i = 0; i < N; i++)
@@ -163,13 +168,31 @@ vec<T, N> vec<T, N>::operator*(T scalar) const
 }
 
 template<typename T, int N>
-vec<T, N> vec<T, N>::operator/(T scalar) const
+constexpr vec<T, N> vec<T, N>::operator*(vec<T, N>& rhs) const
+{
+    vec<T, N> result;
+    for (int i = 0; i < N; i++)
+        result[i] = this->data[i] * rhs[i];
+    return result;
+}
+
+template<typename T, int N>
+constexpr vec<T, N> vec<T, N>::operator/(T scalar) const
 {
     return (*this) * (static_cast<T>(1) / scalar);
 }
 
 template<typename T, int N>
-vec<T, N> operator*(T scalar, const vec<T, N>& vec)
+constexpr vec<T, N> vec<T, N>::operator/(vec<T, N>& rhs) const
+{
+    vec<T, N> result;
+    for (int i = 0; i < N; i++)
+        result[i] = this->data[i] / rhs[i];
+    return result;
+}
+
+template<typename T, int N>
+constexpr vec<T, N> operator*(T scalar, const vec<T, N>& vec)
 {
     return vec * scalar;
 }

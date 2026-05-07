@@ -1,7 +1,7 @@
+#include <glad/glad.h>
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <glad/glad.h>
 #include "vec.h"
 #include "mat4.h"
 #include "Shader.h"
@@ -65,21 +65,36 @@ unsigned int Shader::compileShader(unsigned int type, const std::string& source)
 }
 
 void Shader::setBool(const std::string& name, bool value) const {
-    glUniform1i(glGetUniformLocation(m_id, name.c_str()), (int)value);
+    glUniform1i(getUniformLocation(name), (int)value);
 }
 
 void Shader::setInt(const std::string& name, int value) const {
-    glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
+    glUniform1i(getUniformLocation(name), value);
 }
 
 void Shader::setFloat(const std::string& name, float value) const {
-    glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);
+    glUniform1f(getUniformLocation(name), value);
 }
 
 void Shader::setVec4(const std::string& name, const vec4& value) const {
-    glUniform4fv(glGetUniformLocation(m_id, name.c_str()), 1, &value.x);
+    glUniform4fv(getUniformLocation(name), 1, &value.x);
 }
 
 void Shader::setMat4(const std::string& name, const mat4& value) const {
-    glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_FALSE, value.ptr());
+    glUniformMatrix4fv(getUniformLocation(name), 1, GL_FALSE, value.data());
+}
+
+int Shader::getUniformLocation(const std::string& name) const
+{
+    if (m_uniformLocationCache.find(name) == m_uniformLocationCache.end())
+        return m_uniformLocationCache[name];
+
+    int location = glGetUniformLocation(m_id, name.c_str());
+
+    if (location == -1) {
+        std::cerr << "Warning: uniform '" << name << "' doesn't exist!" << "\n";
+    }
+
+    m_uniformLocationCache[name] = location;
+    return location;
 }

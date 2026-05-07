@@ -4,7 +4,7 @@
 #include <iostream>
 #include <cmath>
 
-inline float radians(float degrees)
+constexpr float radians(float degrees)
 {
     return degrees * (static_cast<float>(M_PI) / 180.0f);
 }

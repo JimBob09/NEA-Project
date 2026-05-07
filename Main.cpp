@@ -16,7 +16,7 @@
 // Resizes window to specified dimensions
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 {
-    glViewport(0, 0, width1, height);
+    glViewport(0, 0, width, height);
 }
 
 static void mouse_callback(GLFWwindow* window, double xpos, double ypos)
@@ -54,7 +54,7 @@ int main()
         return -1;
     }
 
-    constexpr int WIDTH = 800, HEIGHT = 600;
+    const int WIDTH = 800, HEIGHT = 600;
 
     glViewport(0, 0, WIDTH, HEIGHT);
 
@@ -63,7 +63,7 @@ int main()
 
 
     
-    // Define mesh data
+    // Initialise mesh data
     Vertex vertices[] = {
         // Front face
         { vec3{-0.5f, -0.5f,  0.5f}, vec2{0.0f, 0.0f} },
@@ -129,12 +129,12 @@ int main()
     };
 
     // Initialse objects and variables
-    Mesh mesh = Mesh(vertices, sizeof(vertices) / sizeof(Vertex), indices, sizeof(indices) / sizeof(unsigned int));
+    Mesh mesh = Mesh(vertices, indices);
     Shader shader = Shader("shader.vs", "shader.fs");
     Texture cubeTex("grunge-wall-texture.jpg");
 
     Camera camera;
-    InputHandler input(&camera);
+    InputHandler input(camera);
     glfwSetWindowUserPointer(window, &input);
     glfwSetCursorPosCallback(window, mouse_callback);
    
@@ -151,6 +151,9 @@ int main()
     float gClear = 41.0f / 255.0f;
     float bClear = 48.0f / 255.0f;
 
+    double lastTime = glfwGetTime();
+    int nbFrames = 0;
+
 
 
     // Render loop
@@ -166,7 +169,7 @@ int main()
         input.handleKeyboard(window, deltaTime);
 
         // Create MVP matrices
-        angle += fmodf(deltaTime * 100, 360.0f);
+        angle = fmodf(angle + deltaTime * 100, 360.0f);
         quat rotation = quat::fromAxisAngle(vec3{ 1.0f, 0.0f, 0.0f }, radians(angle));
         mat4 model = mat4::scale(1.0f, 1.0f, 1.0f) * mat4::rotate(rotation) * mat4::translate(0.0f, 0.0f, 0.0f);
 
@@ -188,6 +191,21 @@ int main()
         shader.setInt("uTexture", 0);
 
         mesh.draw();
+
+        // Performance measurement
+        double currentTime = glfwGetTime();
+        nbFrames++;
+        if (currentTime - lastTime >= 1.0) {
+            double msPerFrame = 1000.0 / double(nbFrames);
+            int fps = nbFrames;
+
+            // Update the window title with the stats
+            std::string title = "NEA | " + std::to_string(msPerFrame) + " ms/frame | " + std::to_string(fps) + " FPS";
+            glfwSetWindowTitle(window, title.c_str());
+
+            nbFrames = 0;
+            lastTime += 1.0;
+        }
 
         glfwSwapBuffers(window);
         glfwPollEvents();

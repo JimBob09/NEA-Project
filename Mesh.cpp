@@ -1,9 +1,9 @@
 #include <glad/glad.h>
 #include "Mesh.h"
 
-Mesh::Mesh(Vertex vertices[], size_t vertexCount, unsigned int indices[], size_t indexCount)
+Mesh::Mesh(std::span<const Vertex> vertices, std::span<const unsigned int> indices)
 {
-    m_indexCount = indexCount;
+    m_indexCount = indices.size();
 
     // Create VAO, VBO and EBO and configure them
     glGenVertexArrays(1, &m_VAO);
@@ -13,10 +13,10 @@ Mesh::Mesh(Vertex vertices[], size_t vertexCount, unsigned int indices[], size_t
     glBindVertexArray(m_VAO);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(Vertex), vertices, GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size_bytes(), vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_indexCount * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size_bytes(), indices.data(), GL_STATIC_DRAW);
 
     // Configure vertex attributes
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)offsetof(Vertex, position));
@@ -38,6 +38,6 @@ Mesh::~Mesh()
 void Mesh::draw() const
 {
     glBindVertexArray(m_VAO);
-    glDrawElements(GL_TRIANGLES, m_indexCount, GL_UNSIGNED_INT, 0);
+    glDrawElements(GL_TRIANGLES, static_cast<GLsizei>(m_indexCount), GL_UNSIGNED_INT, 0);
     glBindVertexArray(0);
 }

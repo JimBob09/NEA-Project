@@ -1,5 +1,7 @@
 #pragma once
-#include <iostream>
+#include <glad/glad.h>
+#include <string>
+#include <unordered_map>
 #include "vec.h"
 #include "mat4.h"
 
@@ -20,11 +22,14 @@ public:
 	void setVec4(const std::string& name, const vec4& value) const;
 	void setMat4(const std::string& name, const mat4& mat) const;
 
-	unsigned int id() const { return m_id; }
+	constexpr unsigned int id() const { return m_id; }
 
 private:
 	unsigned int m_id;
+	mutable std::unordered_map<std::string, int> m_uniformLocationCache;
 
-	std::string readFile(const std::string& path);
-	unsigned int compileShader(unsigned int type, const std::string& source);
+	int getUniformLocation(const std::string& name) const;
+
+	static std::string readFile(const std::string& path);
+	static unsigned int compileShader(unsigned int type, const std::string& source);
 };

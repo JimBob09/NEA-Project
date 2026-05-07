@@ -1,4 +1,5 @@
 #pragma once
+#include <span>
 #include "vec.h"
 
 struct Vertex
@@ -10,7 +11,7 @@ struct Vertex
 class Mesh
 {
 public:
-	Mesh(Vertex vertices[], size_t vertexCount, unsigned int indices[], size_t indexCount);
+	Mesh(std::span<const Vertex> vertices, std::span<const unsigned int> indices);
 	~Mesh();
 
 	Mesh(const Mesh&) = delete;
