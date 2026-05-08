@@ -76,6 +76,10 @@ void Shader::setFloat(const std::string& name, float value) const {
     glUniform1f(getUniformLocation(name), value);
 }
 
+void Shader::setVec3(const std::string& name, const vec3& value) const {
+    glUniform3fv(getUniformLocation(name), 1, &value.x);
+}
+
 void Shader::setVec4(const std::string& name, const vec4& value) const {
     glUniform4fv(getUniformLocation(name), 1, &value.x);
 }
@@ -86,7 +90,7 @@ void Shader::setMat4(const std::string& name, const mat4& value) const {
 
 int Shader::getUniformLocation(const std::string& name) const
 {
-    if (m_uniformLocationCache.find(name) == m_uniformLocationCache.end())
+    if (m_uniformLocationCache.find(name) != m_uniformLocationCache.end())
         return m_uniformLocationCache[name];
 
     int location = glGetUniformLocation(m_id, name.c_str());

@@ -5,14 +5,14 @@
 class InputHandler {
 public:
     Camera& camera;
-    float lastX = 400, lastY = 300;
+    float lastX = 400.0f, lastY = 300.0f;
     bool firstMouse = true;
 
     InputHandler(Camera& cam) : camera(cam) {}
 
     void handleMouse(double xpos, double ypos) {
-        float x = float(xpos);
-        float y = float(ypos);
+        float x = static_cast<float>(xpos);
+        float y = static_cast<float>(ypos);
 
         if (firstMouse) {
             lastX = x;
@@ -32,6 +32,7 @@ public:
         camera.rotatePitch(yoffset);
     }
 
+    // Call this inside your Application's update loop
     void handleKeyboard(GLFWwindow* window, float dt) {
         if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
             glfwSetWindowShouldClose(window, true);

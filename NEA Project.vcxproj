@@ -157,6 +157,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Application.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -165,11 +166,14 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="mat4.h" />
     <ClInclude Include="Mesh.h" />
+    <ClInclude Include="Primitives.h" />
     <ClInclude Include="quat.h" />
+    <ClInclude Include="RenderObject.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="Texture.h" />
@@ -180,7 +184,8 @@
     <Image Include="grunge-wall-texture.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="shader.fs" />
+    <None Include="lightShader.fs" />
+    <None Include="objectShader.fs" />
     <None Include="shader.vs" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

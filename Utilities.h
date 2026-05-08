@@ -1,10 +1,8 @@
 #pragma once
-#define _USE_MATH_DEFINES
-
 #include <iostream>
-#include <cmath>
+#include <numbers>
 
 constexpr float radians(float degrees)
 {
-    return degrees * (static_cast<float>(M_PI) / 180.0f);
+    return degrees * (std::numbers::pi_v<float> / 180.0f);
 }
