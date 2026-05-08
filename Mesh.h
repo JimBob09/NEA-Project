@@ -6,6 +6,7 @@ struct Vertex
 {
 	vec3 position;
 	vec2 texCoord;
+	vec3 normal;
 };
 
 class Mesh

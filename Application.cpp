@@ -45,17 +45,19 @@ void Application::initWindow(int width, int height, const char* title) {
 void Application::initScene() {
     // Initialize Resources
     m_cubeMesh = std::make_unique<Mesh>(Primitives::cubeVertices, Primitives::cubeIndices);
-    m_cubeTex = std::make_unique<Texture>("grunge-wall-texture.jpg");
+    m_diffuseMap = std::make_unique<Texture>("wall-7-granite-DIFFUSE.jpg");
+    m_specularMap = std::make_unique<Texture>("wall-7-granite-DIFFUSE.jpg");
     m_objectShader = std::make_unique<Shader>("shader.vs", "objectShader.fs");
     m_lightShader = std::make_unique<Shader>("shader.vs", "lightShader.fs");
 
     // Add Light
     m_sceneObjects.push_back({
         m_cubeMesh.get(),
-        m_cubeTex.get(),
+        m_diffuseMap.get(),
+        m_specularMap.get(),
         m_lightShader.get(),
 
-        vec3{-1.0f, 2.0f, -2.0f},
+        vec3{-1.0f, 2.5f, -2.0f},
         quat::fromAxisAngle(vec3{0.0f, 1.0f, 0.0f}, radians(45.0f)),
         vec3{0.5f, 0.5f, 0.5f},
         vec3{1.0f, 1.0f, 1.0f}
@@ -64,7 +66,8 @@ void Application::initScene() {
     // Add Cubes
     m_sceneObjects.push_back({
         m_cubeMesh.get(),
-        m_cubeTex.get(),
+        m_diffuseMap.get(),
+        m_specularMap.get(),
         m_objectShader.get(),
 
         vec3{0.0f, 0.0f, 0.0f},
@@ -75,7 +78,8 @@ void Application::initScene() {
 
     m_sceneObjects.push_back({
         m_cubeMesh.get(),
-        m_cubeTex.get(),
+        m_diffuseMap.get(),
+        m_specularMap.get(),
         m_objectShader.get(),
 
         vec3{-3.0f, 1.0f, -2.0f},
@@ -119,19 +123,33 @@ void Application::render() {
     glfwGetFramebufferSize(m_window, &w, &h);
     mat4 projection = mat4::perspective((float)w / (float)h, radians(45.0f), 0.1f, 100.0f);
 
-    vec3 lightColor = m_sceneObjects[0].colour;
+    vec3 lightPos = m_sceneObjects[0].position;
 
     for (auto& obj : m_sceneObjects) {
         obj.shader->use();
         obj.shader->setMat4("uModel", obj.getModelMatrix());
         obj.shader->setMat4("uView", view);
         obj.shader->setMat4("uProjection", projection);
-        obj.shader->setVec3("uObjectColor", obj.colour);
-
+        
         if (obj.shader == m_objectShader.get()) {
-            obj.shader->setVec3("uLightColor", lightColor);
-            obj.shader->setInt("uTexture", 0);
-            obj.texture->bind(0);
+            obj.shader->setInt("uMaterial.diffuse", 0);
+            obj.diffuseMap->bind(0);
+            obj.shader->setInt("uMaterial.specular", 1);
+            obj.specularMap->bind(1);
+
+            obj.shader->setVec3("uLight.position", lightPos);
+            obj.shader->setVec3("uLight.ambient", vec3{ 0.2f, 0.2f, 0.2f });
+            obj.shader->setVec3("uLight.diffuse", vec3{ 0.5f, 0.5f, 0.5f });
+            obj.shader->setVec3("uLight.specular", vec3{ 1.0f, 1.0f, 1.0f });
+
+            obj.shader->setFloat("uLight.constant", 1.0f);
+            obj.shader->setFloat("uLight.linear", 0.09f);
+            obj.shader->setFloat("uLight.quadratic", 0.032f);
+
+            obj.shader->setVec3("uCameraPos", m_camera.position);
+        }
+        else if (obj.shader == m_lightShader.get()) {
+            obj.shader->setVec3("uObjectColor", obj.color);
         }
 
         obj.mesh->draw();

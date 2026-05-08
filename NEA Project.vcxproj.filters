@@ -16,6 +16,9 @@
     <Filter Include="Header Files\Maths">
       <UniqueIdentifier>{e5bfb902-cb8f-4444-b523-06deb8b15ff0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Shaders">
+      <UniqueIdentifier>{ab4e398b-f359-4775-b451-f35d93bb30f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -82,19 +85,22 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="grunge-wall-texture.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="lightShader.fs">
+      <Filter>Source Files\Shaders</Filter>
+    </None>
     <None Include="objectShader.fs">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
     <None Include="shader.vs">
-      <Filter>Resource Files</Filter>
+      <Filter>Source Files\Shaders</Filter>
     </None>
-    <None Include="lightShader.fs">
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="wall-7-granite-DIFFUSE.jpg">
       <Filter>Resource Files</Filter>
-    </None>
+    </Image>
+    <Image Include="wall-7-granite-SPECULAR.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

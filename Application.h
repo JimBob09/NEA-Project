@@ -40,7 +40,8 @@ private:
     std::unique_ptr<Shader> m_objectShader;
     std::unique_ptr<Shader> m_lightShader;
     std::unique_ptr<Mesh> m_cubeMesh;
-    std::unique_ptr<Texture> m_cubeTex;
+    std::unique_ptr<Texture> m_diffuseMap;
+    std::unique_ptr<Texture> m_specularMap;
 
     std::vector<RenderObject> m_sceneObjects;
 

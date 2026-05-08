@@ -181,12 +181,13 @@
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="grunge-wall-texture.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="lightShader.fs" />
     <None Include="objectShader.fs" />
     <None Include="shader.vs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="wall-7-granite-DIFFUSE.jpg" />
+    <Image Include="wall-7-granite-SPECULAR.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -8,13 +8,14 @@
 
 struct RenderObject {
     Mesh* mesh;
-    Texture* texture;
+    Texture* diffuseMap;
+    Texture* specularMap;
     Shader* shader;
 
     vec3 position;
     quat rotation;
     vec3 scale;
-    vec3 colour;
+    vec3 color;
 
     mat4 getModelMatrix() const {
         return mat4::translate(position.x, position.y, position.z) * mat4::rotate(rotation) * mat4::scale(scale.x, scale.y, scale.z);
