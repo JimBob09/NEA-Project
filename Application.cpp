@@ -136,6 +136,7 @@ void Application::render() {
             obj.diffuseMap->bind(0);
             obj.shader->setInt("uMaterial.specular", 1);
             obj.specularMap->bind(1);
+            obj.shader->setFloat("uMaterial.shininess", 16.0f);
 
             obj.shader->setVec3("uLight.position", lightPos);
             obj.shader->setVec3("uLight.ambient", vec3{ 0.2f, 0.2f, 0.2f });

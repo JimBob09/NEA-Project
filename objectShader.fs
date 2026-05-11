@@ -7,6 +7,7 @@ out vec4 FragColor;
 struct Material {
     sampler2D diffuse;
     sampler2D specular;
+    float shininess;
 };
 
 struct Light {
@@ -44,7 +45,7 @@ void main() {
     vec3 viewDirection = normalize(uCameraPos - FragPos);
     vec3 reflectionRay = reflect(-lightRay, normal);  
 
-    float specularDiff = pow(max(dot(viewDirection, reflectionRay), 0.0), 16.0);
+    float specularDiff = pow(max(dot(viewDirection, reflectionRay), 0.0), uMaterial.shininess);
     vec3 specular =  vec3(texture(uMaterial.specular, TexCoord)) * specularDiff * uLight.specular * attenuation;
 
     // Phong result

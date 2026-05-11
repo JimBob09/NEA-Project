@@ -40,10 +40,10 @@ struct vec : vec_base<T, N>
     constexpr T length() const;
     constexpr vec<T, N> normalise() const;
 
-    constexpr static T dot(const vec<T, N>& lhs, const vec<T, N>& rhs);
+    static constexpr T dot(const vec<T, N>& lhs, const vec<T, N>& rhs);
 
     constexpr T& operator[](int i);
-    constexpr const T& operator[](int i) const;
+    const constexpr T& operator[](int i) const;
 
     constexpr vec<T, N> operator+(const vec<T, N>& rhs) const;
     constexpr vec<T, N>& operator+=(const vec<T, N>& rhs);
@@ -66,7 +66,7 @@ using vec2 = vec<float, 2>;
 using vec3 = vec<float, 3>;
 using vec4 = vec<float, 4>;
 
-inline vec3 cross(const vec3& lhs, const vec3& rhs);
+constexpr vec3 cross(const vec3& lhs, const vec3& rhs);
 
 
 
@@ -197,7 +197,7 @@ constexpr vec<T, N> operator*(T scalar, const vec<T, N>& vec)
     return vec * scalar;
 }
 
-inline vec3 cross(const vec3& lhs, const vec3& rhs)
+constexpr vec3 cross(const vec3& lhs, const vec3& rhs)
 {
     return vec3{
         lhs[1] * rhs[2] - lhs[2] * rhs[1],

@@ -111,10 +111,10 @@ inline mat4 mat4::rotate(const quat& rotation)
 {
 	quat q = rotation.normalise();
 	return mat4({
-		1 - 2 * (q.y * q.y + q.z * q.z), 2 * (q.x * q.y + q.w * q.z),     2 * (q.x * q.z - q.w * q.y),     0.0f,
-		2 * (q.x * q.y - q.w * q.z),     1 - 2 * (q.x * q.x + q.z * q.z), 2 * (q.y * q.z + q.w * q.x),     0.0f,
-		2 * (q.x * q.z + q.w * q.y),     2 * (q.y * q.z - q.w * q.x),     1 - 2 * (q.x * q.x + q.y * q.y), 0.0f,
-		0.0f,							 0.0f,							  0.0f,							   1.0f
+		1.0f - 2.0f * (q.y * q.y + q.z * q.z), 2.0f * (q.x * q.y + q.w * q.z),        2.0f * (q.x * q.z - q.w * q.y),        0.0f,
+		2.0f * (q.x * q.y - q.w * q.z),        1.0f - 2.0f * (q.x * q.x + q.z * q.z), 2.0f * (q.y * q.z + q.w * q.x),        0.0f,
+		2.0f * (q.x * q.z + q.w * q.y),        2.0f * (q.y * q.z - q.w * q.x),        1.0f - 2.0f * (q.x * q.x + q.y * q.y), 0.0f,
+		0.0f,							       0.0f,							      0.0f,							         1.0f
 		});
 }
 
