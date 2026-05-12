@@ -12,9 +12,9 @@ struct Camera
     const float sensitivity = 0.1f;
     const float rollSpeed = 45.0f;
 
-    constexpr vec3 front() const { return quat::rotate(orientation, vec3{ 0.0f, 0.0f, -1.0f }); }
-    constexpr vec3 right() const { return quat::rotate(orientation, vec3{ 1.0f, 0.0f, 0.0f }); }
-    constexpr vec3 up() const { return quat::rotate(orientation, vec3{ 0.0f, 1.0f, 0.0f }); }
+    vec3 front() const { return quat::rotate(orientation, vec3{ 0.0f, 0.0f, -1.0f }); }
+    vec3 right() const { return quat::rotate(orientation, vec3{ 1.0f, 0.0f, 0.0f }); }
+    vec3 up() const { return quat::rotate(orientation, vec3{ 0.0f, 1.0f, 0.0f }); }
 
     void rotatePitch(float deg) { applyLocalRotation(right(), deg); }
     void rotateYaw(float deg) { applyLocalRotation(up(), deg); }

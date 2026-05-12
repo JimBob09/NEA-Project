@@ -1,6 +1,6 @@
 #include <iostream>
-#include "Application.h"
-#include "Primitives.h"
+#include "../include/Application.h"
+#include "../include/Primitives.h"
 
 static void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
     glViewport(0, 0, width, height);
@@ -45,10 +45,10 @@ void Application::initWindow(int width, int height, const char* title) {
 void Application::initScene() {
     // Initialize Resources
     m_cubeMesh = std::make_unique<Mesh>(Primitives::cubeVertices, Primitives::cubeIndices);
-    m_diffuseMap = std::make_unique<Texture>("wall-7-granite-DIFFUSE.jpg");
-    m_specularMap = std::make_unique<Texture>("wall-7-granite-DIFFUSE.jpg");
-    m_objectShader = std::make_unique<Shader>("shader.vs", "objectShader.fs");
-    m_lightShader = std::make_unique<Shader>("shader.vs", "lightShader.fs");
+    m_diffuseMap = std::make_unique<Texture>("resources/wall-7-granite-DIFFUSE.jpg");
+    m_specularMap = std::make_unique<Texture>("resources/wall-7-granite-DIFFUSE.jpg");
+    m_objectShader = std::make_unique<Shader>("shaders/shader.vs", "shaders/objectShader.fs");
+    m_lightShader = std::make_unique<Shader>("shaders/shader.vs", "shaders/lightShader.fs");
 
     // Add Light
     m_sceneObjects.push_back({
@@ -96,8 +96,16 @@ void Application::run() {
         m_lastFrame = currentFrame;
 
         handleInput(m_deltaTime);
-        update(m_deltaTime);
-        render();
+
+        m_accumulator += m_deltaTime;
+        while (m_accumulator >= FIXED_DT) {
+            // m_physicsWorld.step(FIXED_DT);
+            m_accumulator -= FIXED_DT;
+        }
+
+        const float alpha = m_accumulator / FIXED_DT;
+
+        render(alpha);
         updatePerformanceCounter();
 
         glfwSwapBuffers(m_window);
@@ -109,11 +117,7 @@ void Application::handleInput(float deltaTime) {
     m_input.handleKeyboard(m_window, deltaTime);
 }
 
-void Application::update(float deltaTime) {
-    
-}
-
-void Application::render() {
+void Application::render(float alpha) {
     glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 

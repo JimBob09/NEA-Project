@@ -24,8 +24,7 @@ private:
 
     // Loop steps
     void handleInput(float deltaTime);
-    void update(float deltaTime);
-    void render();
+    void render(float alpha);
     void updatePerformanceCounter();
 
     // Window data
@@ -36,7 +35,7 @@ private:
     Camera m_camera;
     InputHandler m_input;
 
-    // Resources (Shaders, Meshes, etc)
+    // Resources
     std::unique_ptr<Shader> m_objectShader;
     std::unique_ptr<Shader> m_lightShader;
     std::unique_ptr<Mesh> m_cubeMesh;
@@ -50,4 +49,9 @@ private:
     float m_lastFrame = 0.0f;
     double m_lastTime = 0.0;
     int m_nbFrames = 0;
+
+    // Physics
+    // PhysicsWorld m_physicsWorld;
+    float m_accumulator = 0.0f;
+    static constexpr float FIXED_DT = 1.0f / 60.0f;
 };

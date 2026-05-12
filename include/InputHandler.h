@@ -10,20 +10,17 @@ public:
 
     InputHandler(Camera& cam) : camera(cam) {}
 
-    void handleMouse(double xpos, double ypos) {
-        float x = static_cast<float>(xpos);
-        float y = static_cast<float>(ypos);
-
+    void handleMouse(float xpos, float ypos) {
         if (firstMouse) {
-            lastX = x;
-            lastY = y;
+            lastX = xpos;
+            lastY = ypos;
             firstMouse = false;
         }
 
-        float xoffset = x - lastX;
-        float yoffset = lastY - y;
-        lastX = x;
-        lastY = y;
+        float xoffset = xpos - lastX;
+        float yoffset = lastY - ypos;
+        lastX = xpos;
+        lastY = ypos;
 
         xoffset *= camera.sensitivity;
         yoffset *= camera.sensitivity;

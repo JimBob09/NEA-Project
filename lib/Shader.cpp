@@ -2,9 +2,9 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include "vec.h"
-#include "mat4.h"
-#include "Shader.h"
+#include "../include/vec.h"
+#include "../include/mat4.h"
+#include "../include/Shader.h"
 
 Shader::Shader(const std::string& vertexPath, const std::string& fragmentPath)
 {

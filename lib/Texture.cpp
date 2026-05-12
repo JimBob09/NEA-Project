@@ -1,8 +1,8 @@
 #include <glad/glad.h>
 #include <iostream>
 #include <string>
-#include "stb_image.h"
-#include "Texture.h"
+#include "../Libraries/include/stb_image.h"
+#include "../include/Texture.h"
 
 Texture::Texture(const std::string& path, bool flip)
 {

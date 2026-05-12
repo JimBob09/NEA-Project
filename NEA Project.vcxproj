@@ -159,37 +159,40 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Application.cpp" />
-    <ClCompile Include="glad.c" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Mesh.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="stb_image.cpp" />
-    <ClCompile Include="Texture.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Application.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="InputHandler.h" />
+    <ClInclude Include="include\Application.h" />
+    <ClInclude Include="include\Camera.h" />
+    <ClInclude Include="include\InputHandler.h" />
+    <ClInclude Include="include\mat4.h" />
+    <ClInclude Include="include\Mesh.h" />
+    <ClInclude Include="include\PhysicsWorld.h" />
+    <ClInclude Include="include\Primitives.h" />
+    <ClInclude Include="include\quat.h" />
+    <ClInclude Include="include\RenderObject.h" />
+    <ClInclude Include="include\Shader.h" />
+    <ClInclude Include="include\Texture.h" />
+    <ClInclude Include="include\Utilities.h" />
+    <ClInclude Include="include\vec.h" />
     <ClInclude Include="mat4.h" />
-    <ClInclude Include="Mesh.h" />
-    <ClInclude Include="Primitives.h" />
     <ClInclude Include="quat.h" />
-    <ClInclude Include="RenderObject.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="stb_image.h" />
-    <ClInclude Include="Texture.h" />
-    <ClInclude Include="Utilities.h" />
     <ClInclude Include="vec.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lightShader.fs" />
-    <None Include="objectShader.fs" />
-    <None Include="shader.vs" />
+    <None Include="shaders\lightShader.fs" />
+    <None Include="shaders\objectShader.fs" />
+    <None Include="shaders\shader.vs" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="wall-7-granite-DIFFUSE.jpg" />
-    <Image Include="wall-7-granite-SPECULAR.jpg" />
+    <ClCompile Include="cli\Main.cpp" />
+    <ClCompile Include="Libraries\lib\glad.c" />
+    <ClCompile Include="Libraries\lib\stb_image.cpp" />
+    <ClCompile Include="lib\Application.cpp" />
+    <ClCompile Include="lib\Mesh.cpp" />
+    <ClCompile Include="lib\Shader.cpp" />
+    <ClCompile Include="lib\Texture.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="resources\wall-7-granite-DIFFUSE.jpg" />
+    <Image Include="resources\wall-7-granite-SPECULAR.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

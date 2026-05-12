@@ -1,5 +1,5 @@
 #include <glad/glad.h>
-#include "Mesh.h"
+#include "../include/Mesh.h"
 
 Mesh::Mesh(std::span<const Vertex> vertices, std::span<const unsigned int> indices)
 {
